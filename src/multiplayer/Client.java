@@ -9,12 +9,7 @@ import java.net.Socket;
 public class Client extends LAN_Conn{
     public Client(Model model){
         this.model = model;
-    }//Client constructor
-    
-    /**
-     * Creates the {@code socket} and connects it to {@code SERVER_PORT} on host with address {@code server_addr}
-     * @throws IOException
-     */
+    }//constructor
     public void init(String server_addr) throws IOException {
         socket = new Socket(server_addr, Server.SERVER_PORT);
         System.out.println("The client (Black)\n------------------\n");
