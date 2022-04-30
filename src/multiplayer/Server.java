@@ -10,7 +10,8 @@ import javax.swing.SwingWorker;
 
 
 public class Server extends LAN_Conn{
-    //Port of the server application
+    //Server portunu hazır giriyorum
+    //Port değerini hazır girme yeri olmadığı için  değeri burdan veriyorum
     public static final int SERVER_PORT = 10001;
     
     private ServerSocket serverSocket;
@@ -18,22 +19,15 @@ public class Server extends LAN_Conn{
     public Server(Model model) {
         this.model = model;
     }
-    
-    /**
-     * Uses {@link ServerSocket#accept} to wait for a client who wishes to connect. 
-     * 
-     * @see ServerSocket#accept
-     */
+    // bir client'ın bağlanmasını bekliyor
     public void run() {
         try {
             socket = serverSocket.accept();
             isConnected = true;
             System.out.println("The server (White)\n------------------\n");
             System.out.println("Server: Client connected!");
-            //TODO Ouch
             model.setChanged1();
-            //Schedule a SwingWorker for execution on a worker thread because it can take some time until the opponent
-            //makes his draw.
+            //burada diğer oyuncunun hamle yapmasını bekliyeceğimizden dolayı, swingWorker kullandım.SwingWorker thread'in bu iş için başarılı olduğu için kullandım
             SwingWorker worker = new SwingWorker(){
                 @Override
                 protected Object doInBackground() throws Exception {
@@ -42,7 +36,6 @@ public class Server extends LAN_Conn{
                 }
             };
             worker.execute();
-            //Causes View#update and thus to waiting.setVisible(true)
             model.notifyObservers2(UpdateMessages.CLIENT_CONNECTED);
             System.out.println("Server: View notified");
         } catch (SocketException se) {
@@ -51,19 +44,11 @@ public class Server extends LAN_Conn{
             e.printStackTrace();
         }
     }//run
-
-    /**
-     * Creates the {@code socket} and binds it to {@code SERVER_PORT}
-     * 
-     * @throws IOException
-     */
+// 49. satırda bağlanıyor
     public void init(String not_used) throws IOException {
         serverSocket = new ServerSocket(SERVER_PORT);
     }
-    
-    /**
-     * Closes the connection and the {@code socket}
-     */
+// bağlantıyı kapatıyor
     public void terminate() throws IOException{
         serverSocket.close();
         super.terminate();
