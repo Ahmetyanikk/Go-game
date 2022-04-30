@@ -1,19 +1,7 @@
 package game;
 
-//TODO This class is used both by Model and View. However, orient values (which were introduced later) are just only by View although they have implications for the Model, too, such as intersections with an orient other than CE are located at the board's border
-/**
- * The Go board consists of {@link Constants#BOARD_DIM} * {@link Constants#BOARD_DIM} intersections.
- * An intersection is empty by default. It can also have a white or a black stone on it.
- * A newly created IS also stores its type.
- * 
- */
+//bu dosyada tahtayı kontrol etmek için kullanıyorum
 public class IS {
-    /**
-     * The intersection's type:
-     * <br> center,
-     * <br> edge: top, left, right, bottom,
-     * <br> corner: top left, top right, bottom left, bottom right
-     */
     public enum Type {
         /** Center */
         C,
@@ -35,7 +23,7 @@ public class IS {
         E_T
     }
 
-    /** The intersection's state (empty, black, or white) */
+    /** Kesişimlerin olduğu yerlerdeki taş durumu  (empty, black, or white) */
     public enum State {
         /** Empty */
         E,
@@ -47,16 +35,13 @@ public class IS {
     
     private Type type;
     private State state;
-    //TODO Obv this belongs in class Stone
-    //TODO Which is better: attribute if every intersection (like this) or a "global" variable that holds the intersection (better: the stone) that was put last
-    /** Was the last stone that was played put on this intersection? */
     private boolean wasPutLast;
     
     IS(Type type){
         this.type= type;
         state = State.E;
         wasPutLast = false;
-    }//IS constructor
+    }//IS  kütüphanesi constructor
 
     public Type getType() {
         return type;
@@ -72,12 +57,12 @@ public class IS {
             wasPutLast = true;
     }
     
-    /** Sets this intersection to empty */ 
+    /** kesişimi boşaltma */ 
     public void setEmpty(){
     	state = State.E;
     }
     
-    /** Was the last stone that was played put on this intersection? */
+    /** Oynanan son taş bu kesişimde mi ? */
     public boolean wasPutLast(){
         return wasPutLast;
     }
