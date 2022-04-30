@@ -10,45 +10,27 @@ import multiplayer.LAN_Conn;
 import multiplayer.Server;
 import multiplayer.UpdateMessages;
 
-/* Ideas for improvement:
- * - Global variables
- */
-
-//TODO Look at more complex methods in Model and write good and clear description
-
-//TODO At the beginning, provide options: local or distributed multiplayer (and at some point maybe singleplayer)
-
-//TODO Set player (Black / White) at the beginning because it won't change and it will be used again and again throughout the game. This might also help get rid of getCurrentPlayer() / getOpponent() hassle. Then, only relevant information will be whose turn it is.
-
 /**
- * The data and logic for the game. In Go Black plays against White. 
- * The game is played on a square board that consists of intersections that are either empty
- * or have a black or white stone upon them.
+ * Oyunun modeli bu java dosyasında yazıyor.
  * 
  * 
  */
 public class Model extends Observable{
     
     private LAN_Conn lan;       //Server or client
-    private int ter_B;                    //Territory occupied by Black
-    private int ter_W;                    //Territory occupied by White
-    private int pris_B = 0;                    //Conquered opponent stones of Black
-    private int pris_W = 0;                    //Conquered opponent stones of White
+    private int ter_B;                    //ele geçirilen siyah bölgeler
+    private int ter_W;                    //ele geçirilen beyaz bölgeler
+    private int pris_B = 0;                    //ele geçirilen(mahkum) siyah taşlar
+    private int pris_W = 0;                    //ele geçirilen(mahkum) beyaz taşlar
     private int pris_B_b4 = pris_B;
     private int pris_W_b4 = pris_W;
     private Player player;
     
     /**
      * The number of the current draw, incremented by each player in each of their turns. Used to determine whose turn it is.
-     * 
-     * <p> TODO Also used for something else (like comparing board states)? Maybe there's a better solution. 
+     *
      */
 	private int gameCnt;
-	//TODO: Maybe move the different board states to one IS[][][]
-	/**
-	 * The state of the board represented by the state of its intersections.
-	 * (0,0) is the top left corner of the board.
-	 */
 	private IS[][] board;
 	/** The previous ("minus 1") state of the board. board is set to this when a move is undone. */
 	private IS[][] board_m1;
@@ -699,7 +681,7 @@ public class Model extends Observable{
         }
     }//getPlayer
     
-    //TODO Currently this doesn't get the opponent but the state of the intersection (which could also be empty but let's hope it's never). Either change return type to Player(color) or change the way it is called/used!
+
     public IS.State getOpponent(IS.State state){       //Gets the color of the specified color's opponent
         if (state == IS.State.W){
             return IS.State.B;
@@ -712,12 +694,7 @@ public class Model extends Observable{
     }//getOpponent
     
     private void printBoards() {
-//        System.out.println("board_m2:");
-//        System.out.println(boardToString(board_m2, false) + "\n");
 
-//        System.out.println("board_m1:");
-//        System.out.println(boardToString(board_m1, false) + "\n");
-        
         System.out.println("board:");
         System.out.println(boardToString(board, false) + "\n");
     }
